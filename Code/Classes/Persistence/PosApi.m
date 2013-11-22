@@ -24,7 +24,14 @@
         success:(APIResponseHandler)success
         failure:(APIResponseHandler)failure
 {
-    NSString *fullPath = [NSString stringWithFormat:@"http://%@:8080%@",self.posIdAddres, path];
+    //TODO: prepararlo para direccion completa desde el POS
+    NSString *fullPath =@""; //[NSString stringWithFormat:@"http://%@:8080%@", self.posIdAddres, path];
+    
+    if ([self.posIdAddres rangeOfString:@"http:"].location == NSNotFound) {
+        fullPath=[NSString stringWithFormat:@"http://%@:8080%@", self.posIdAddres, path];
+    } else {
+        fullPath=[NSString stringWithFormat:@"%@%@", self.posIdAddres, path];
+    }
     
 #ifdef LOG_API
     NSLog(@"POS API: request: %@", fullPath);
@@ -66,7 +73,14 @@
          success:(APIResponseHandler)success
          failure:(APIResponseHandler)failure
 {
-    NSString *fullPath = [NSString stringWithFormat:@"http://%@:8080%@", self.posIdAddres, path];
+    //TODO: prepararlo para direccion completa desde el POS
+    NSString *fullPath =@""; //[NSString stringWithFormat:@"http://%@:8080%@", self.posIdAddres, path];
+    
+    if ([self.posIdAddres rangeOfString:@"http:"].location == NSNotFound) {
+        fullPath=[NSString stringWithFormat:@"http://%@:8080%@", self.posIdAddres, path];
+    } else {
+        fullPath=[NSString stringWithFormat:@"%@%@", self.posIdAddres, path];
+    }
     
 #ifdef LOG_API
     NSLog(@"POS API: request: %@", fullPath);

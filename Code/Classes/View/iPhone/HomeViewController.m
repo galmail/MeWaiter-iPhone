@@ -67,6 +67,8 @@ UIBarButtonItem *anotherButton;
     }
     if (self.currentTable.sid) {
         self.cardButton.hidden=NO;
+        self.ticketButton.hidden=NO;
+        self.secondsButton.hidden=NO;
         self.TableLabel.alpha=1.0;
         self.TableLabel.text=[NSString stringWithFormat:@"%@ mesa %i",self.currentFloor.name,self.currentTable.tableNumber];
         [self.selectTableButton setTitle:[NSString stringWithFormat:@"%@ mesa %i",self.currentFloor.name,self.currentTable.tableNumber] forState:UIControlStateNormal];
@@ -80,6 +82,8 @@ UIBarButtonItem *anotherButton;
     }
     else{
         self.cardButton.hidden=YES;
+        self.ticketButton.hidden=YES;
+        self.secondsButton.hidden=YES;
         self.navigationItem.rightBarButtonItem.enabled=NO;
         [self.selectTableButton setTitle:@"Seleciona una mesa" forState:UIControlStateNormal];
     }
@@ -109,6 +113,18 @@ UIBarButtonItem *anotherButton;
 {
     SelectBoardViewController * selectBoardViewController=[[SelectBoardViewController alloc]init];
     selectBoardViewController.floorsArray=self.floorsArray;
+    if (self.currentTable) {
+        for (int i=0;i<[self.floorsArray count]; i++) {
+            if ([[self.floorsArray objectAtIndex:i] floorId]==self.currentFloor.floorId) {
+                selectBoardViewController.floorNumber=i;
+                for (int j=0; j<[[[self.floorsArray objectAtIndex:i] tables] count]; j++) {
+                    if ([[[[self.floorsArray objectAtIndex:i] tables] objectAtIndex:j] tableId]==self.currentTable.tableId) {
+                        selectBoardViewController.tableNumber=j;
+                    }
+                }
+            }
+        }
+    }
     [self.navigationController pushViewController:selectBoardViewController animated:YES];
 }
 
@@ -154,6 +170,41 @@ UIBarButtonItem *anotherButton;
         [hud hide:YES];
         [[[UIAlertView alloc]initWithTitle:@"Error con el POS" message:@"No se ha conseguido comunicar con el POS." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
     }];
+}
+
+- (IBAction)secondAction:(id)sender
+{
+    Table *selectedTable=self.currentTable;
+    [selectedTable setFloorId:self.currentFloor.floorId];
+    [[CoreService getInstance]postSecondDishesWithKey:[[[Model getInstance] loggedUser] mwKey] table:selectedTable succes:^(NSMutableDictionary *json) {
+        if ([[json objectForKey:@"success"] intValue]==1) {
+            [[[UIAlertView alloc]initWithTitle:@"Segundos Solicitados" message:@"Se han pedido ha cocina los segundos" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
+        }else{
+            [[[UIAlertView alloc]initWithTitle:@"Error de envio" message:@"Comprueba que la mesa esté abierta" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
+        }
+        
+    } failure:^(NSMutableDictionary *json) {
+        [[[UIAlertView alloc]initWithTitle:@"Error de conexión" message:@"No se ha podido comunicar la app con el POS" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
+    }];
+}
+
+- (IBAction)printTicketAction:(id)sender {
+    SelectBoardViewController * selectBoardViewController=[[SelectBoardViewController alloc]init];
+    if (self.currentTable) {
+        for (int i=0;i<[self.floorsArray count]; i++) {
+            if ([[self.floorsArray objectAtIndex:i] floorId]==self.currentFloor.floorId) {
+                selectBoardViewController.floorNumber=i;
+                for (int j=0; j<[[[self.floorsArray objectAtIndex:i] tables] count]; j++) {
+                    if ([[[[self.floorsArray objectAtIndex:i] tables] objectAtIndex:j] tableId]==self.currentTable.tableId) {
+                        selectBoardViewController.tableNumber=j;
+                    }
+                }
+            }
+        }
+    }
+    [selectBoardViewController SelectTicketActionWithTable:self.currentTable];
+    selectBoardViewController.floorsArray=self.floorsArray;
+    [self.navigationController pushViewController:selectBoardViewController animated:YES];
 }
 
 #pragma mark - UITableViewDataSource methods

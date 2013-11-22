@@ -21,6 +21,10 @@
 @property (strong, nonatomic) IBOutlet UIButton *deleteButton;
 @property (strong, nonatomic) IBOutlet UIButton *sendButton;
 @property (strong, nonatomic) IBOutlet UIButton *cardButton;
+@property (strong, nonatomic) IBOutlet UIButton *ticketButton;
+@property (strong, nonatomic) IBOutlet UIButton *secondsButton;
+
+
 
 @property (strong, nonatomic) IBOutlet UILabel *TableLabel;
 
@@ -34,6 +38,8 @@
 
 - (IBAction)SelectTableAction:(UIButton*)button;
 - (IBAction)deleteAllAction:(id)sender;
+- (IBAction)secondAction:(id)sender;
+- (IBAction)printTicketAction:(id)sender;
 
 
 @end

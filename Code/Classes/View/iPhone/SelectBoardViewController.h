@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Table.h"
 
 @interface SelectBoardViewController : UIViewController<UIPickerViewDataSource,UIPickerViewDelegate,UITextFieldDelegate, UITableViewDataSource,UITableViewDelegate>
 
@@ -39,6 +40,9 @@
 @property (strong, nonatomic) IBOutlet UITextField *payTextField;
 @property (nonatomic,strong) IBOutlet  UITextField *payNoteTextField;
 
+@property (nonatomic,assign) int floorNumber;
+@property (nonatomic,assign) int tableNumber;
+
 - (IBAction)SelectBoard:(UIButton *)button;
 - (IBAction)openBoardAction:(id)sender;
 - (IBAction)printBoardTicketAction:(id)sender;
@@ -49,6 +53,7 @@
 - (IBAction)SelectTicketAction:(id)sender;
 - (IBAction)amountAceptAction:(id)sender;
 - (IBAction)amountCancelAction:(id)sender;
+- (void)SelectTicketActionWithTable:(Table *)table;
 
 
 @end

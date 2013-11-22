@@ -16,8 +16,7 @@
 #import "MBProgressHUD.h"
 
 @interface SelectBoardViewController ()
-@property (nonatomic,assign) int floorNumber;
-@property (nonatomic,assign) int TableNumber;
+
 @property (nonatomic,strong) MBProgressHUD *hud;
 @end
 
@@ -46,8 +45,8 @@ float totalpayment;
     [self setupTablesDataSourcesArray];
     [self setTitle:@"Mesas"];
     [self setupSwitches];
-    self.floorNumber=0;
-    self.TableNumber=0;
+    //self.floorNumber=0;
+    //self.TableNumber=0;
     self.paxTextField.delegate=self;
     
     // Do any additional setup after loading the view from its nib.
@@ -80,6 +79,8 @@ float totalpayment;
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self.numberPickerView selectRow:self.tableNumber inComponent:0 animated:NO];
+    [self.sitePickerView selectRow:self.floorNumber inComponent:0 animated:NO];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWasShown:)
                                                  name:UIKeyboardWillShowNotification
@@ -188,7 +189,7 @@ float totalpayment;
     }else if (self.numberPickerView==pickerView){
         self.TableNumber=row;
     }
-    Table *selectedTable=(Table *)[self.floorsArray[self.floorNumber] tables][self.TableNumber];
+    Table *selectedTable=(Table *)[self.floorsArray[self.floorNumber] tables][self.tableNumber];
     [selectedTable setFloorId:[self.floorsArray[self.floorNumber]floorId]];
     self.tableLabel.text=[selectedTable nameOfTable];
 }
@@ -204,10 +205,10 @@ float totalpayment;
 
 - (IBAction)SelectBoard:(UIButton *)button
 {
-    [[CoreService getInstance]getIsOpenedWithSid:[[self.floorsArray[self.floorNumber] tables][self.TableNumber]sid] Succes:^(NSMutableDictionary *json) {
+    [[CoreService getInstance]getIsOpenedWithSid:[[self.floorsArray[self.floorNumber] tables][self.tableNumber]sid] Succes:^(NSMutableDictionary *json) {
         if ([[json objectForKey:@"opened"] boolValue]) {
             HomeViewController *homeViewController=(HomeViewController *)[[[self navigationController] viewControllers] firstObject];
-            [[Model getInstance] setSelectedTable:[self.floorsArray[self.floorNumber] tables][self.TableNumber]];
+            [[Model getInstance] setSelectedTable:[self.floorsArray[self.floorNumber] tables][self.tableNumber]];
             [[Model getInstance] setSelectedFloor:self.floorsArray[self.floorNumber]] ;
             [self.navigationController popToViewController:homeViewController animated:YES];
         }else{
@@ -226,7 +227,7 @@ float totalpayment;
     self.hud= [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.mode = MBProgressHUDModeIndeterminate;
     self.hud.labelText = @"Solicitando mesa...";
-    [[CoreService getInstance] postOpenTableWithKey:[[[Model getInstance] loggedUser] mwKey] tableSid:[[self.floorsArray[self.floorNumber] tables][self.TableNumber]sid] method:@"open" pax:self.paxTextField.text reservation:[self.reservationSwitch isOn]?@"true":@"false" firstTimeVisit:[self.firstTimeSwitch isOn]?@"true":@"false" succes:^(NSMutableDictionary *json) {
+    [[CoreService getInstance] postOpenTableWithKey:[[[Model getInstance] loggedUser] mwKey] tableSid:[[self.floorsArray[self.floorNumber] tables][self.tableNumber]sid] method:@"open" pax:self.paxTextField.text reservation:[self.reservationSwitch isOn]?@"true":@"false" firstTimeVisit:[self.firstTimeSwitch isOn]?@"true":@"false" succes:^(NSMutableDictionary *json) {
         [[self hud] hide:YES];
         if ([[json objectForKey:@"success"] intValue]==1) {
             [self SelectBoard:nil];
@@ -240,17 +241,18 @@ float totalpayment;
 }
 -(IBAction)printBoardTicketAction:(id)sender {
     
-    NSString *tableName=[NSString stringWithFormat:@"%@ mesa %@",[self.floorsArray[self.floorNumber] name],[NSString stringWithFormat:@"%i",[[self.floorsArray[self.floorNumber] tables][self.TableNumber] tableNumber]]];
+    NSString *tableName=[NSString stringWithFormat:@"%@ mesa %@",[self.floorsArray[self.floorNumber] name],[NSString stringWithFormat:@"%i",[[self.floorsArray[self.floorNumber] tables][self.tableNumber] tableNumber]]];
     
-    [[CoreService getInstance] postPrintTicketTableWithKey:[[[Model getInstance] loggedUser] mwKey] tableSid:[[self.floorsArray[self.floorNumber] tables][self.TableNumber]sid] tableName:tableName discountSet:selectedDiscount succes:^(NSMutableDictionary *json) {
-        [self.payView removeFromSuperview];
+    [[CoreService getInstance] postPrintTicketTableWithKey:[[[Model getInstance] loggedUser] mwKey] tableSid:[[self.floorsArray[self.floorNumber] tables][self.tableNumber]sid] tableName:tableName discountSet:selectedDiscount succes:^(NSMutableDictionary *json) {
+        //[self.payView removeFromSuperview];
         if ([[json objectForKey:@"success"] intValue]==1) {
             [[[UIAlertView alloc]initWithTitle:@"Imprimiendo" message:[NSString stringWithFormat:@"Se está sacando un resumen en la impresora, por un valor de %.2f",[[json objectForKey:@"total"] floatValue]] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
+                self.totalLabel.text=[NSString stringWithFormat:@"Total a pagar : %.2f",[[json objectForKey:@"total"] floatValue]];
         }else{
             [[[UIAlertView alloc]initWithTitle:@"Error al imprimir" message:@"No se ha conseguido enviar el ticket" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
         }
     } failure:^(NSMutableDictionary *json) {
-        [self.payView removeFromSuperview];
+        //[self.payView removeFromSuperview];
         [[[UIAlertView alloc]initWithTitle:@"Error en la comunicacion" message:@"No se ha conseguido comunicar con el POS para enviar la petición" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
     }];
 }
@@ -265,7 +267,7 @@ float totalpayment;
 
 - (IBAction)secondAction:(id)sender
 {
-    Table *selectedTable=(Table *)[self.floorsArray[self.floorNumber] tables][self.TableNumber];
+    Table *selectedTable=(Table *)[self.floorsArray[self.floorNumber] tables][self.tableNumber];
     [selectedTable setFloorId:[self.floorsArray[self.floorNumber]floorId]];
     [[CoreService getInstance]postSecondDishesWithKey:[[[Model getInstance] loggedUser] mwKey] table:selectedTable succes:^(NSMutableDictionary *json) {
         if ([[json objectForKey:@"success"] intValue]==1) {
@@ -295,8 +297,24 @@ float totalpayment;
 }
 
 - (IBAction)SelectTicketAction:(id)sender {
-    [[CoreService getInstance]getIsOpenedWithSid:[[self.floorsArray[self.floorNumber] tables][self.TableNumber]sid] Succes:^(NSMutableDictionary *json) {
+    [[CoreService getInstance]getIsOpenedWithSid:[[self.floorsArray[self.floorNumber] tables][self.tableNumber]sid] Succes:^(NSMutableDictionary *json) {
         if ([[json objectForKey:@"opened"] boolValue]) {
+            [self.payView setFrame:[[UIScreen mainScreen] bounds]];
+            [self.view addSubview:self.payView];
+        }else{
+            [[[UIAlertView alloc]initWithTitle:@"Mesa Cerrada" message:@"Selecciona una mesa que esté abierta" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
+        }
+        
+    } failure:^(NSMutableDictionary *json) {
+        [[[UIAlertView alloc]initWithTitle:@"Error de comunicación" message:@"POS no responde" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
+    }];
+    
+}
+
+- (void)SelectTicketActionWithTable:(Table *)table {
+    [[CoreService getInstance]getIsOpenedWithSid:table.sid Succes:^(NSMutableDictionary *json) {
+        if ([[json objectForKey:@"opened"] boolValue]) {
+            self.tableLabel.text=[table nameOfTable];
             [self.payView setFrame:[[UIScreen mainScreen] bounds]];
             [self.view addSubview:self.payView];
         }else{
@@ -330,21 +348,27 @@ float totalpayment;
 
 
 - (IBAction)payTicketAction:(id)sender {
-    NSString *tableName=[NSString stringWithFormat:@"%@ mesa %@",[self.floorsArray[self.floorNumber] name],[NSString stringWithFormat:@"%i",[[self.floorsArray[self.floorNumber] tables][self.TableNumber] tableNumber]]];
+    if ([[selectedPaymentSet allObjects] count]!=0) {
+        NSString *tableName=[NSString stringWithFormat:@"%@ mesa %@",[self.floorsArray[self.floorNumber] name],[NSString stringWithFormat:@"%i",[[self.floorsArray[self.floorNumber] tables][self.tableNumber] tableNumber]]];
+        
+        [[CoreService getInstance] postPrintTicketAndCloseTableWithKey:[[[Model getInstance] loggedUser] mwKey] tableSid:[[self.floorsArray[self.floorNumber] tables][self.tableNumber]sid] tableName:tableName discountSet:selectedDiscount paymentSet:selectedPaymentSet succes:^(NSMutableDictionary *json) {
+            //[self.payView removeFromSuperview];
+            [self.navigationController popViewControllerAnimated:YES];
+            if ([[json objectForKey:@"success"] intValue]==1) {
+                [[[UIAlertView alloc]initWithTitle:@"Imprimiendo" message:@"Se ha impreso el ticket correctamente" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
+                [[Model getInstance] setSelectedFloor:nil];
+                [[Model getInstance] setSelectedTable:nil];
+            }else{
+                [[[UIAlertView alloc]initWithTitle:@"Error al imprimir" message:@"No se ha conseguido enviar el ticket" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
+            }
+        } failure:^(NSMutableDictionary *json) {
+            //[self.payView removeFromSuperview];
+            [[[UIAlertView alloc]initWithTitle:@"Error en la comunicacion" message:@"No se ha conseguido comunicar con el POS para enviar la petición" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
+        }];
+    }else{
+        [[[UIAlertView alloc]initWithTitle:@"Metodos de pago" message:@"Debes haber seleccionado al menos un modo de pago" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
+    }
     
-    [[CoreService getInstance] postPrintTicketAndCloseTableWithKey:[[[Model getInstance] loggedUser] mwKey] tableSid:[[self.floorsArray[self.floorNumber] tables][self.TableNumber]sid] tableName:tableName discountSet:selectedDiscount paymentSet:selectedPaymentSet succes:^(NSMutableDictionary *json) {
-        [self.payView removeFromSuperview];
-        if ([[json objectForKey:@"success"] intValue]==1) {
-            [[[UIAlertView alloc]initWithTitle:@"Imprimiendo" message:@"Se ha impreso el ticket correctamente" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
-            [[Model getInstance] setSelectedFloor:nil];
-            [[Model getInstance] setSelectedTable:nil];
-        }else{
-            [[[UIAlertView alloc]initWithTitle:@"Error al imprimir" message:@"No se ha conseguido enviar el ticket" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
-        }
-    } failure:^(NSMutableDictionary *json) {
-        [self.payView removeFromSuperview];
-        [[[UIAlertView alloc]initWithTitle:@"Error en la comunicacion" message:@"No se ha conseguido comunicar con el POS para enviar la petición" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
-    }];
 }
 
 #pragma mark -UITableViewDataSource methods
@@ -355,11 +379,7 @@ float totalpayment;
         for (Payment *payment in selectedPaymentSet) {
             totalpayment+= [payment.amount floatValue];
         }
-        if (totalpayment>0) {
-            self.totalLabel.text=[NSString stringWithFormat:@"Total acumulado : %.2f",totalpayment];
-        }else{
-            self.totalLabel.text=@"Total acumulado : 0.0";
-        }
+        
         return [payArray count];
     }else if (tableView==self.discountTable){
         return [discountArray count];
@@ -391,6 +411,7 @@ float totalpayment;
             cell.contentView.backgroundColor=[UIColor colorWithRed:0.549 green:0.776 blue:0.247 alpha:1.000];
         }else{
             cell.backgroundColor=[UIColor whiteColor];
+            cell.contentView.backgroundColor=[UIColor whiteColor];
             cell.textLabel.backgroundColor=[UIColor whiteColor];
         }
     }else{
