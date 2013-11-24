@@ -85,7 +85,7 @@ UIBarButtonItem *anotherButton;
         self.ticketButton.hidden=YES;
         self.secondsButton.hidden=YES;
         self.navigationItem.rightBarButtonItem.enabled=NO;
-        [self.selectTableButton setTitle:@"Seleciona una mesa" forState:UIControlStateNormal];
+        [self.selectTableButton setTitle:@"Selecciona una mesa" forState:UIControlStateNormal];
     }
 }
 

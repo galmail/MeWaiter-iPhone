@@ -309,7 +309,7 @@ NSMutableSet *mandatorySet;
             [self.changeButton setTitle:@"Realizar cambios" forState:UIControlStateNormal];
             [self.changeButton setBackgroundColor:[UIColor colorWithRed:0.549 green:0.776 blue:0.247 alpha:1.000]];
         }else{
-            [self.changeButton setTitle:@"selecionar campos obligatorios" forState:UIControlStateNormal];
+            [self.changeButton setTitle:@"Seleccionar campos obligatorios" forState:UIControlStateNormal];
             [self.changeButton setBackgroundColor:[UIColor colorWithRed:0.890 green:0.145 blue:0.180 alpha:1.000]];
         }
 

@@ -283,14 +283,14 @@
 		16F8C5801804126200131D72 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		6034051717118D5000BF8CA4 /* bola_process.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bola_process.png; sourceTree = "<group>"; };
 		6034051817118D5000BF8CA4 /* bola_process@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bola_process@2x.png"; sourceTree = "<group>"; };
-		60FA4BB8170F990B0021649E /* meWaiter-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "meWaiter-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		60FA4BB8170F990B0021649E /* mewaiter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mewaiter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60FA4BBB170F990B0021649E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		60FA4BBD170F990B0021649E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		60FA4BBF170F990B0021649E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		60FA4BC3170F990B0021649E /* meWaiter-ios-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "meWaiter-ios-Info.plist"; sourceTree = "<group>"; };
+		60FA4BC3170F990B0021649E /* mewaiter.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = mewaiter.plist; sourceTree = "<group>"; };
 		60FA4BC5170F990B0021649E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		60FA4BC7170F990B0021649E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		60FA4BC9170F990B0021649E /* meWaiter-ios-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "meWaiter-ios-Prefix.pch"; sourceTree = "<group>"; };
+		60FA4BC9170F990B0021649E /* mewaiter-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mewaiter-Prefix.pch"; sourceTree = "<group>"; };
 		60FA4BCA170F990B0021649E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		60FA4BCB170F990B0021649E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		60FA4BE6170F9DD10021649E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -500,7 +500,7 @@
 		60FA4BB9170F990B0021649E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				60FA4BB8170F990B0021649E /* meWaiter-ios.app */,
+				60FA4BB8170F990B0021649E /* mewaiter.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -539,11 +539,11 @@
 		60FA4BC2170F990B0021649E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				60FA4BC3170F990B0021649E /* meWaiter-ios-Info.plist */,
+				60FA4BC3170F990B0021649E /* mewaiter.plist */,
 				60FA4BC4170F990B0021649E /* InfoPlist.strings */,
 				60FA4BE7170F9DD10021649E /* Localizable.strings */,
 				60FA4BC7170F990B0021649E /* main.m */,
-				60FA4BC9170F990B0021649E /* meWaiter-ios-Prefix.pch */,
+				60FA4BC9170F990B0021649E /* mewaiter-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -873,9 +873,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		60FA4BB7170F990B0021649E /* meWaiter-ios */ = {
+		60FA4BB7170F990B0021649E /* mewaiter.temp_caseinsensitive_rename */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 60FA4BD5170F990B0021649E /* Build configuration list for PBXNativeTarget "meWaiter-ios" */;
+			buildConfigurationList = 60FA4BD5170F990B0021649E /* Build configuration list for PBXNativeTarget "mewaiter.temp_caseinsensitive_rename" */;
 			buildPhases = (
 				60FA4BB4170F990B0021649E /* Sources */,
 				60FA4BB5170F990B0021649E /* Frameworks */,
@@ -885,9 +885,9 @@
 			);
 			dependencies = (
 			);
-			name = "meWaiter-ios";
+			name = mewaiter.temp_caseinsensitive_rename;
 			productName = "bootstrap-ios";
-			productReference = 60FA4BB8170F990B0021649E /* meWaiter-ios.app */;
+			productReference = 60FA4BB8170F990B0021649E /* mewaiter.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -897,14 +897,14 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0460;
-				ORGANIZATIONNAME = "[WE ARE] DEVELAPPERS";
+				ORGANIZATIONNAME = ToCarta;
 				TargetAttributes = {
 					60FA4BB7170F990B0021649E = {
-						DevelopmentTeam = D7LGBVN56Y;
+						DevelopmentTeam = H7W3N7L3PK;
 					};
 				};
 			};
-			buildConfigurationList = 60FA4BB3170F990B0021649E /* Build configuration list for PBXProject "meWaiter-ios" */;
+			buildConfigurationList = 60FA4BB3170F990B0021649E /* Build configuration list for PBXProject "mewaiter" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -917,7 +917,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				60FA4BB7170F990B0021649E /* meWaiter-ios */,
+				60FA4BB7170F990B0021649E /* mewaiter.temp_caseinsensitive_rename */,
 			);
 		};
 /* End PBXProject section */
@@ -1148,19 +1148,19 @@
 		60FA4BD6170F990B0021649E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gal Dubitski (X3UBXF7TMN)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gal Dubitski (X3UBXF7TMN)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Code/meWaiter-ios-Prefix.pch";
-				INFOPLIST_FILE = "Code/meWaiter-ios-Info.plist";
+				GCC_PREFIX_HEADER = "Code/mewaiter-Prefix.pch";
+				INFOPLIST_FILE = Code/mewaiter.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Code/Libraries/Google Analytics\"",
 					"\"$(SRCROOT)/Code/Libraries/TestFlight\"",
 				);
-				PRODUCT_NAME = "meWaiter-ios";
-				PROVISIONING_PROFILE = "";
+				PRODUCT_NAME = mewaiter;
+				PROVISIONING_PROFILE = "174B1C04-E89B-4C51-A4DD-347006C92A25";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1168,19 +1168,19 @@
 		60FA4BD7170F990B0021649E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gal Dubitski (X3UBXF7TMN)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gal Dubitski (X3UBXF7TMN)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Code/meWaiter-ios-Prefix.pch";
-				INFOPLIST_FILE = "Code/meWaiter-ios-Info.plist";
+				GCC_PREFIX_HEADER = "Code/mewaiter-Prefix.pch";
+				INFOPLIST_FILE = Code/mewaiter.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Code/Libraries/Google Analytics\"",
 					"\"$(SRCROOT)/Code/Libraries/TestFlight\"",
 				);
-				PRODUCT_NAME = "meWaiter-ios";
-				PROVISIONING_PROFILE = "";
+				PRODUCT_NAME = mewaiter;
+				PROVISIONING_PROFILE = "174B1C04-E89B-4C51-A4DD-347006C92A25";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1188,7 +1188,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		60FA4BB3170F990B0021649E /* Build configuration list for PBXProject "meWaiter-ios" */ = {
+		60FA4BB3170F990B0021649E /* Build configuration list for PBXProject "mewaiter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				60FA4BD3170F990B0021649E /* Debug */,
@@ -1197,7 +1197,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		60FA4BD5170F990B0021649E /* Build configuration list for PBXNativeTarget "meWaiter-ios" */ = {
+		60FA4BD5170F990B0021649E /* Build configuration list for PBXNativeTarget "mewaiter.temp_caseinsensitive_rename" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				60FA4BD6170F990B0021649E /* Debug */,

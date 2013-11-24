@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:meWaiter-ios.xcodeproj">
+      location = "self:mewaiter.xcodeproj">
    </FileRef>
 </Workspace>
