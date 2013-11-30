@@ -1148,8 +1148,8 @@
 		60FA4BD6170F990B0021649E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Gal Dubitski (X3UBXF7TMN)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gal Dubitski (X3UBXF7TMN)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Code/mewaiter-Prefix.pch";
 				INFOPLIST_FILE = Code/mewaiter.plist;
@@ -1160,7 +1160,7 @@
 					"\"$(SRCROOT)/Code/Libraries/TestFlight\"",
 				);
 				PRODUCT_NAME = mewaiter;
-				PROVISIONING_PROFILE = "174B1C04-E89B-4C51-A4DD-347006C92A25";
+				PROVISIONING_PROFILE = "8C2059CC-BBB3-4C9E-8A6D-460AD42071C6";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1168,8 +1168,8 @@
 		60FA4BD7170F990B0021649E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Gal Dubitski (X3UBXF7TMN)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gal Dubitski (X3UBXF7TMN)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Code/mewaiter-Prefix.pch";
 				INFOPLIST_FILE = Code/mewaiter.plist;
@@ -1180,7 +1180,7 @@
 					"\"$(SRCROOT)/Code/Libraries/TestFlight\"",
 				);
 				PRODUCT_NAME = mewaiter;
-				PROVISIONING_PROFILE = "174B1C04-E89B-4C51-A4DD-347006C92A25";
+				PROVISIONING_PROFILE = "8C2059CC-BBB3-4C9E-8A6D-460AD42071C6";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
