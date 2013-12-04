@@ -96,6 +96,16 @@ UIBarButtonItem *anotherButton;
     
     UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     self.navigationItem.leftBarButtonItem = backButtonItem;
+    
+    for (int i=0; i<[[modifierListSet modifierLists] count]; i++) {
+        if ([[[modifierListSet modifierLists]objectAtIndex:i] selectedModiefierSid]) {
+            for (int j=0; j<[[[[modifierListSet modifierLists]objectAtIndex:i]modifiers] count]; j++) {
+                if ([[[[[[modifierListSet modifierLists]objectAtIndex:i]modifiers] objectAtIndex:j]sid] isEqualToString:[[[modifierListSet modifierLists]objectAtIndex:i] selectedModiefierSid]]) {
+                    [selectedModifiers addObject:[NSIndexPath indexPathForRow:j inSection:i]];
+                }
+            }
+        }
+    }
 }
 
 -(void) back:(id)sender
@@ -320,34 +330,45 @@ UIBarButtonItem *anotherButton;
 {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if (indexPath.section<[[modifierListSet modifierLists] count]) {
-        NSArray *SelectedArray=[selectedModifiers allObjects];
-        for (NSIndexPath *index in SelectedArray) {
-            if (index.section==indexPath.section) {
-                if (index.row!=indexPath.row) {
-                    [[tableView cellForRowAtIndexPath:index] setAccessoryType:UITableViewCellAccessoryNone];
-                }
-                [selectedModifiers removeObject:index];
+        if ([[[[modifierListSet modifierLists]objectAtIndex:indexPath.section] isMultioption] isEqualToString:@"1"]) {
+            if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                [selectedModifiers removeObject:indexPath];
+            } else {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                [selectedModifiers addObject:indexPath];
             }
-        };
-        if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-        } else {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            [selectedModifiers addObject:indexPath];
+        }else{
+            NSArray *SelectedArray=[selectedModifiers allObjects];
+            for (NSIndexPath *index in SelectedArray) {
+                if (index.section==indexPath.section) {
+                    if (index.row!=indexPath.row) {
+                        [[tableView cellForRowAtIndexPath:index] setAccessoryType:UITableViewCellAccessoryNone];
+                    }
+                    [selectedModifiers removeObject:index];
+                }
+            };
+            if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+            } else {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                [selectedModifiers addObject:indexPath];
+            }
+            //vamos a ver si todos los obligatorios estan
+            NSMutableSet *selectedSectionSet=[[NSMutableSet alloc]init];
+            for (NSIndexPath *indexPath in selectedModifiers) {
+                [selectedSectionSet addObject:[NSNumber numberWithInt:indexPath.section]];
+            }
+            BOOL isContained=YES;
+            for (NSNumber *number in [mandatorySet allObjects]) {
+                isContained= isContained && [selectedSectionSet containsObject:number];
+            }
+            self.addToBoardButton.hidden=!isContained;
+            self.addToOrderButton.hidden=!isContained;
+            self.navigationItem.rightBarButtonItem.enabled=isContained;
+            self.mandatoryLabel.hidden=isContained;
         }
-        //vamos a ver si todos los obligatorios estan
-        NSMutableSet *selectedSectionSet=[[NSMutableSet alloc]init];
-        for (NSIndexPath *indexPath in selectedModifiers) {
-            [selectedSectionSet addObject:[NSNumber numberWithInt:indexPath.section]];
-        }
-        BOOL isContained=YES;
-        for (NSNumber *number in [mandatorySet allObjects]) {
-            isContained= isContained && [selectedSectionSet containsObject:number];
-        }
-        self.addToBoardButton.hidden=!isContained;
-        self.addToOrderButton.hidden=!isContained;
-        self.navigationItem.rightBarButtonItem.enabled=isContained;
-        self.mandatoryLabel.hidden=isContained;
+        
     
         
     }else{

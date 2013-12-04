@@ -14,6 +14,7 @@
 @property (nonatomic,strong) NSString *name;
 @property (nonatomic,strong) NSString *isMandatory;
 @property (nonatomic,strong) NSString *isMultioption;
+@property (nonatomic,strong) NSString *selectedModiefierSid;
 @property (nonatomic,strong) NSMutableArray *modifiers;
 
 - (id) initWithDictionary: (NSDictionary *) dictionary;

@@ -26,6 +26,11 @@
     self.sid=[dictionary objectForKey:@"sid"];
     self.name=[dictionary objectForKey:@"name"];
     self.isMandatory=[dictionary objectForKey:@"is_mandatory"];
+    self.isMultioption=[dictionary objectForKey:@"is_multioption"];
+    if ([dictionary objectForKey:@"selected_modifier_sid"]) {
+        self.selectedModiefierSid=[dictionary objectForKey:@"selected_modifier_sid"];
+    }
+    
     NSArray *modifierArray=[dictionary objectForKey:@"modifiers"];
     self.modifiers=[[NSMutableArray alloc]init];
     for (NSDictionary *dishDictonary in modifierArray) {

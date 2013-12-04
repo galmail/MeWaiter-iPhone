@@ -221,7 +221,7 @@
             success = NO;
         }
         //Modifier_list
-        sql=[NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS modifier_list (id_mls INTEGER, sid TEXT, id_list INTEGER PRIMARY KEY, name TEXT, is_mandatory TEXT, is_multioption TEXT)"];
+        sql=[NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS modifier_list (id_mls INTEGER, sid TEXT, id_list INTEGER PRIMARY KEY, name TEXT, is_mandatory TEXT, is_multioption TEXT,selected_modifier_sid TEXT)"];
         if (sqlite3_exec(db, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
             [self close];
             [[NSNotificationCenter defaultCenter] postNotificationName:kLocalDBInitializationError object:self];
@@ -1048,6 +1048,8 @@
             floor.sid= [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 1)];
             floor.name= [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement,2)];
             floor.tables=[self getTablesArrayWithFloorId:floor.floorId];
+            NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"tableNumber" ascending:YES];
+            floor.tables = [[floor.tables sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]] mutableCopy];
             [floorsArray addObject:floor];
 		}
 	} else {
@@ -1315,7 +1317,7 @@
 	if (!isOpen) [self open];
 	
 	char *err;
-	NSString *sql = [NSString stringWithFormat:@"insert or replace into modifier_list (id_mls, sid, id_list, name, is_mandatory, is_multioption) values ( '%i','%@', '%i', '%@', '%@', '%@')",modifierListSetId,modifierList.sid,modifierList.modiferListId,modifierList.name,modifierList.isMandatory,modifierList.isMultioption];
+	NSString *sql = [NSString stringWithFormat:@"insert or replace into modifier_list (id_mls, sid, id_list, name, is_mandatory, is_multioption,selected_modifier_sid) values ( '%i','%@', '%i', '%@', '%@', '%@', '%@')",modifierListSetId,modifierList.sid,modifierList.modiferListId,modifierList.name,modifierList.isMandatory,modifierList.isMultioption,modifierList.selectedModiefierSid];
 	if (sqlite3_exec(db, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
 		[self close];
 #ifdef LOG_SQLITE
@@ -1392,6 +1394,7 @@
             modifierList.name= [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement,3)];
             modifierList.isMandatory= [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement,4)];
             modifierList.isMultioption= [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement,5)];
+            modifierList.selectedModiefierSid=[NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement,6)];
             modifierList.modifiers=[self getModifierWithModifierListid:modifierList.modiferListId];
             [modifierListArray addObject:modifierList];
 		}

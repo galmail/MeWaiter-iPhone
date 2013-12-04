@@ -280,39 +280,48 @@ NSMutableSet *mandatorySet;
 {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if (indexPath.section<[[modifierListSet modifierLists] count]) {
-        NSArray *SelectedArray=[selectedModifiers allObjects];
-        for (NSIndexPath *index in SelectedArray) {
-            if (index.section==indexPath.section) {
-                if (index.row!=indexPath.row) {
-                    [[tableView cellForRowAtIndexPath:index] setAccessoryType:UITableViewCellAccessoryNone];
-                }
-                [selectedModifiers removeObject:index];
+        if ([[[[modifierListSet modifierLists]objectAtIndex:indexPath.section] isMultioption] isEqualToString:@"1"]) {
+            if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                [selectedModifiers removeObject:indexPath];
+            } else {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                [selectedModifiers addObject:indexPath];
             }
-        };
-        if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-        } else {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            [selectedModifiers addObject:indexPath];
-        }
-        //vamos a ver si todos los obligatorios estan
-        NSMutableSet *selectedSectionSet=[[NSMutableSet alloc]init];
-        for (NSIndexPath *indexPath in selectedModifiers) {
-            [selectedSectionSet addObject:[NSNumber numberWithInt:indexPath.section]];
-        }
-        BOOL isContained=YES;
-        for (NSNumber *number in [mandatorySet allObjects]) {
-            isContained= isContained && [selectedSectionSet containsObject:number];
-        }
-        self.changeButton.enabled=isContained;
-        if (isContained) {
-            [self.changeButton setTitle:@"Realizar cambios" forState:UIControlStateNormal];
-            [self.changeButton setBackgroundColor:[UIColor colorWithRed:0.549 green:0.776 blue:0.247 alpha:1.000]];
         }else{
-            [self.changeButton setTitle:@"Seleccionar campos obligatorios" forState:UIControlStateNormal];
-            [self.changeButton setBackgroundColor:[UIColor colorWithRed:0.890 green:0.145 blue:0.180 alpha:1.000]];
+            NSArray *SelectedArray=[selectedModifiers allObjects];
+            for (NSIndexPath *index in SelectedArray) {
+                if (index.section==indexPath.section) {
+                    if (index.row!=indexPath.row) {
+                        [[tableView cellForRowAtIndexPath:index] setAccessoryType:UITableViewCellAccessoryNone];
+                    }
+                    [selectedModifiers removeObject:index];
+                }
+            };
+            if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+            } else {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                [selectedModifiers addObject:indexPath];
+            }
+            //vamos a ver si todos los obligatorios estan
+            NSMutableSet *selectedSectionSet=[[NSMutableSet alloc]init];
+            for (NSIndexPath *indexPath in selectedModifiers) {
+                [selectedSectionSet addObject:[NSNumber numberWithInt:indexPath.section]];
+            }
+            BOOL isContained=YES;
+            for (NSNumber *number in [mandatorySet allObjects]) {
+                isContained= isContained && [selectedSectionSet containsObject:number];
+            }
+            self.changeButton.enabled=isContained;
+            if (isContained) {
+                [self.changeButton setTitle:@"Realizar cambios" forState:UIControlStateNormal];
+                [self.changeButton setBackgroundColor:[UIColor colorWithRed:0.549 green:0.776 blue:0.247 alpha:1.000]];
+            }else{
+                [self.changeButton setTitle:@"Seleccionar campos obligatorios" forState:UIControlStateNormal];
+                [self.changeButton setBackgroundColor:[UIColor colorWithRed:0.890 green:0.145 blue:0.180 alpha:1.000]];
+            }
         }
-
     }else{
         NSArray *SelectedDiscountArray=[selectedDiscounts allObjects];
         for (NSIndexPath *index in SelectedDiscountArray) {
