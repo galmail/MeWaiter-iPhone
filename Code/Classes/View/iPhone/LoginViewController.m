@@ -199,6 +199,8 @@
                 self.hud.labelText = @"Información de las mesas";
                 [coreService getTablesWithKey:user.mwKey succes:^(NSMutableDictionary *json) {
                     NSMutableArray *floorsArray=[[NSMutableArray alloc]init];
+                    [dataBase deleteFloors];
+                    [dataBase deleteTables];
                     for (NSDictionary *floorDictionary in [json objectForKey:@"floors"]) {
                         Floor *floor=[[Floor alloc]initWithDictionary:floorDictionary];
                         [dataBase insertfloor:floor];
