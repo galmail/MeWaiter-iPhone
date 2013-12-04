@@ -22,6 +22,7 @@
                 <outlet property="payView" destination="nru-5Y-Bd0" id="GAF-sj-dYs"/>
                 <outlet property="reservationSwitch" destination="blo-CD-NCO" id="Vrf-Jc-VqR"/>
                 <outlet property="sitePickerView" destination="UK2-Cp-kMR" id="4za-Qk-9St"/>
+                <outlet property="tableLabel" destination="dot-G6-VkP" id="BL1-Lh-RDb"/>
                 <outlet property="totalLabel" destination="vT9-84-mJH" id="hWV-tl-0l4"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
@@ -236,7 +237,7 @@
                             </connections>
                         </button>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="n6N-kz-z2G">
-                            <rect key="frame" x="0.0" y="75" width="147" height="312"/>
+                            <rect key="frame" x="0.0" y="210" width="292" height="177"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
@@ -245,7 +246,7 @@
                             </connections>
                         </tableView>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="g2W-a5-Kzo">
-                            <rect key="frame" x="145" y="75" width="147" height="312"/>
+                            <rect key="frame" x="0.0" y="75" width="292" height="127"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
