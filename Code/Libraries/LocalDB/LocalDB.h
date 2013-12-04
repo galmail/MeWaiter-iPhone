@@ -83,6 +83,7 @@
 - (void)insertTable:(Table *)table floorId:(int)floorId;
 - (Table*)getTableWithId:(int )tableId;
 - (void)deleteTableWithId:(int )dishId;
+- (void)deleteTables;
 
 #pragma mark - Floors methods
 
@@ -90,6 +91,7 @@
 - (Floor*)getFloorWithId:(int )floorId;
 - (NSMutableArray*)getFloorsArray;
 - (void)deleteFloorWithId:(int )floorId;
+- (void)deleteFloors;
 
 #pragma mark - User methods
 

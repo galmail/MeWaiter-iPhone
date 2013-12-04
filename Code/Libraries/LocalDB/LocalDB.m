@@ -977,6 +977,20 @@
 	}
 }
 
+- (void)deleteTables
+{
+	if (!isOpen) [self open];
+	
+	char *err;
+	NSString *sql =@"delete from tables ";
+	if (sqlite3_exec(db, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
+		[self close];
+#ifdef LOG_SQLITE
+        NSLog(@"LocalDB: Error al ejecutar la query: deleteConfigWithName: %s", err);
+#endif
+	}
+}
+
 #pragma mark - Floors methods
 
 - (void)insertfloor:(Floor*)floor
@@ -1052,6 +1066,19 @@
 	
 	char *err;
 	NSString *sql = [NSString stringWithFormat:@"delete from floors where id = '%i'", floorId];
+	if (sqlite3_exec(db, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
+		[self close];
+#ifdef LOG_SQLITE
+        NSLog(@"LocalDB: Error al ejecutar la query: deleteConfigWithName: %s", err);
+#endif
+	}
+}
+- (void)deleteFloors
+{
+	if (!isOpen) [self open];
+	
+	char *err;
+	NSString *sql =@"delete from floors";
 	if (sqlite3_exec(db, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
 		[self close];
 #ifdef LOG_SQLITE
