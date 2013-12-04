@@ -163,6 +163,7 @@ UIBarButtonItem *anotherButton;
             [self deleteAllAction:nil];
             self.navigationItem.rightBarButtonItem.enabled=NO;
         }else{
+            [hud hide:YES];
             [[[UIAlertView alloc]initWithTitle:@"Error al enviar" message:@"Comprueba si la mesa esta abierta e intentalo otra vez" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
         }
         
