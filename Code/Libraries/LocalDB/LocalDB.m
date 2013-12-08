@@ -500,6 +500,33 @@
 	return menu;
 }
 
+- (int)getMenuIdWithSid:(NSString *)sid
+{
+	if (!isOpen) [self open];
+	
+	Menu *menu = [[Menu alloc]init];
+	NSString *sql = [NSString stringWithFormat:@"select * from menus where sid = '%@'", sid ];
+	const char *sqlStatement = [sql UTF8String];
+	sqlite3_stmt *compiledStatement;
+	if (sqlite3_prepare_v2(db, sqlStatement, -1, &compiledStatement, NULL) == SQLITE_OK) {
+		while (sqlite3_step(compiledStatement) == SQLITE_ROW) {
+			menu.menuId = [[NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 0)] intValue];
+            menu.sid= [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 1)];
+            menu.name= [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 2)];
+            menu.menuType=[NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 3)];
+            menu.price=[NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 4)];
+		}
+	} else {
+		[self close];
+#ifdef LOG_SQLITE
+        NSLog(@"LocalDB: Error al ejecutar la query: getConfigWithName");
+#endif
+	}
+	sqlite3_finalize(compiledStatement);
+	return menu.menuId;
+}
+
+
 - (NSMutableArray*)getMenuArray
 {
 	if (!isOpen) [self open];
@@ -792,6 +819,28 @@
 	
 	int menuId=0;
 	NSString *sql = [NSString stringWithFormat:@"select * from dishes where id = '%i'", dishId ];
+	const char *sqlStatement = [sql UTF8String];
+	sqlite3_stmt *compiledStatement;
+	if (sqlite3_prepare_v2(db, sqlStatement, -1, &compiledStatement, NULL) == SQLITE_OK) {
+		while (sqlite3_step(compiledStatement) == SQLITE_ROW) {
+            menuId= [[NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 1)] intValue];
+		}
+	} else {
+		[self close];
+#ifdef LOG_SQLITE
+        NSLog(@"LocalDB: Error al ejecutar la query: getConfigWithName");
+#endif
+	}
+	sqlite3_finalize(compiledStatement);
+	return menuId;
+}
+
+- (int)getMenuIdOfDishWithSid:(NSString *)sid
+{
+	if (!isOpen) [self open];
+	
+	int menuId=0;
+	NSString *sql = [NSString stringWithFormat:@"select * from dishes where sid = '%@'", sid ];
 	const char *sqlStatement = [sql UTF8String];
 	sqlite3_stmt *compiledStatement;
 	if (sqlite3_prepare_v2(db, sqlStatement, -1, &compiledStatement, NULL) == SQLITE_OK) {
@@ -2039,12 +2088,45 @@
 	return discountsArray;
 }
 
--(NSMutableArray *) getDiscountWithMenuId:(int) menuId;
+-(NSMutableArray *) getDiscountWithMenuId:(int) menuId
 {
     if (!isOpen) [self open];
 	NSMutableArray *discountsArray=[[NSMutableArray alloc]init];
 	
 	NSString *sql = [NSString stringWithFormat:@"select * from discounts where  menu_id = '%i'", menuId];
+	const char *sqlStatement = [sql UTF8String];
+	sqlite3_stmt *compiledStatement;
+	if (sqlite3_prepare_v2(db, sqlStatement, -1, &compiledStatement, NULL) == SQLITE_OK) {
+		while (sqlite3_step(compiledStatement) == SQLITE_ROW) {
+            Discount *discount=[[Discount alloc]init];
+            discount.sid=[NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 1)];
+            discount.name=[NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 2)];
+            discount.dType=[NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 3)];
+            discount.amount=[NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 4)];
+            discount.position=[[NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 5)]intValue];
+            discount.note=[NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 6)];
+            discount.restaurantId=[[NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 7)]intValue];
+            discount.menuId=[[NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 8)]intValue];
+            discount.sectionId=[[NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 9)]intValue];
+            discount.dishId=[[NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 10)]intValue];
+            [discountsArray addObject:discount];
+		}
+	} else {
+		[self close];
+#ifdef LOG_SQLITE
+		NSLog(@"LocalDB: Error al ejecutar la query: getOrdersModsWithorderId");
+#endif
+	}
+	sqlite3_finalize(compiledStatement);
+	return discountsArray;
+}
+
+-(NSMutableArray *) getDiscountWithOnlyMenuId:(int) menuId
+{
+    if (!isOpen) [self open];
+	NSMutableArray *discountsArray=[[NSMutableArray alloc]init];
+	
+	NSString *sql = [NSString stringWithFormat:@"select * from discounts where  menu_id = '%i' AND section_id='0' AND dish_id='0'", menuId];
 	const char *sqlStatement = [sql UTF8String];
 	sqlite3_stmt *compiledStatement;
 	if (sqlite3_prepare_v2(db, sqlStatement, -1, &compiledStatement, NULL) == SQLITE_OK) {

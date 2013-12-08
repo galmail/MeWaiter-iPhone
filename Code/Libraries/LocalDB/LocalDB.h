@@ -54,6 +54,7 @@
 
 - (void)insertMenu:(Menu *)menu ;
 - (Menu*)getMenuWithId:(int )menuId;
+- (int)getMenuIdWithSid:(NSString *)sid;
 - (void)deleteMenuWithId:(int )menuId;
 - (void)deleteMenus;
 
@@ -74,6 +75,7 @@
 - (Dish*)getDishWithId:(int )dishId;
 - (int)getSectionIdOfDishWithId:(int )dishId;
 - (int)getMenuIdOfDishWithId:(int )dishId;
+- (int)getMenuIdOfDishWithSid:(NSString *)sid;
 - (Dish*)getDishWithName:(NSString *)dishName;
 - (void)deleteDishWithId:(int )dishId;
 - (void)deleteDishes;
@@ -162,6 +164,7 @@
 -(Discount*) getDiscountWithSid:(NSString*) sid;
 -(NSMutableArray *) getDiscountWithDishId:(int) dishId;
 -(NSMutableArray *) getDiscountWithMenuId:(int) menuId;
+-(NSMutableArray *) getDiscountWithOnlyMenuId:(int) menuId;
 -(NSMutableArray *) getDiscountWithSectionId:(int) sectionId;
 -(NSMutableArray *) getDiscountWithMenuId:(int) menuId sectionId:(int) sectionId dishId:(int) dishId;
 -(NSMutableArray *) getDiscountOnlyForRestaurant;

@@ -66,10 +66,13 @@ UIBarButtonItem *anotherButton;
     }else{
         mandatorySet = [[NSMutableSet alloc]init];
     }
-    if ([self.dish.sid isEqualToString:self.section.sid]) {
+    
+    if(self.dish.dishId==0){
+        discountsArray=[[[CoreService getInstance ]db]getDiscountWithOnlyMenuId:[[[CoreService getInstance ]db] getMenuIdWithSid:self.dish.sid]];
+    }else if ([self.dish.sid isEqualToString:self.section.sid]) {
         discountsArray=[[NSMutableArray alloc]init];
     }else{
-        discountsArray=[[[CoreService getInstance ]db]getDiscountWithMenuId:[[[CoreService getInstance ]db] getMenuIdOfDishWithId:self.dish.dishId] sectionId:[[[CoreService getInstance ]db] getSectionIdOfDishWithId:self.dish.dishId] dishId:self.dish.dishId];
+        discountsArray=[[[CoreService getInstance ]db]getDiscountWithMenuId:[[[CoreService getInstance ]db] getMenuIdOfDishWithSid:self.dish.sid] sectionId:[[[CoreService getInstance ]db] getSectionIdOfDishWithId:self.dish.dishId] dishId:self.dish.dishId];
     }
     
     NSLog(@"%i",mlsId);

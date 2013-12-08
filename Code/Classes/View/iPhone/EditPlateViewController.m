@@ -46,6 +46,10 @@ NSMutableSet *mandatorySet;
 {
     [super viewDidLoad];
     self.dish=[[[CoreService getInstance] db] getDishWithName:self.order.productName];
+    if (self.dish.dishId==0) {
+        self.dish.name=self.order.productName;
+        self.dish.sid=self.order.sid;
+    }
     [self.addNoteView frameResizeByHeightDelta:-KResizeNoteView];
     self.navigationItem.title = self.dish.name;
     self.detailTextView.delegate=self;
@@ -157,7 +161,14 @@ NSMutableSet *mandatorySet;
 
 -(void) configureDiscountSet
 {
-    discountsArray=[[[CoreService getInstance ]db]getDiscountWithMenuId:[[[CoreService getInstance ]db] getMenuIdOfDishWithId:self.dish.dishId] sectionId:[[[CoreService getInstance ]db] getSectionIdOfDishWithId:self.dish.dishId] dishId:self.dish.dishId];
+//    discountsArray=[[[CoreService getInstance ]db]getDiscountWithMenuId:[[[CoreService getInstance ]db] getMenuIdOfDishWithSid:self.dish.sid] sectionId:[[[CoreService getInstance ]db] getSectionIdOfDishWithId:self.dish.dishId] dishId:self.dish.dishId];
+    
+    if(self.dish.dishId==0){
+        discountsArray=[[[CoreService getInstance ]db]getDiscountWithOnlyMenuId:[[[CoreService getInstance ]db] getMenuIdWithSid:self.dish.sid]];
+    }else{
+        discountsArray=[[[CoreService getInstance ]db]getDiscountWithMenuId:[[[CoreService getInstance ]db] getMenuIdOfDishWithSid:self.dish.sid] sectionId:[[[CoreService getInstance ]db] getSectionIdOfDishWithId:self.dish.dishId] dishId:self.dish.dishId];
+    }
+    
     Discount *discountSaved=[[[CoreService getInstance]db] getOrderDiscountWithOrderId:self.order.orderId];
     selectedDiscounts=[[NSMutableSet alloc]init];
     int discountPosition=0;
