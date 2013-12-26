@@ -221,7 +221,7 @@
             success = NO;
         }
         //Modifier_list
-        sql=[NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS modifier_list (id_mls INTEGER, sid TEXT, id_list INTEGER PRIMARY KEY, name TEXT, is_mandatory TEXT, is_multioption TEXT,selected_modifier_sid TEXT)"];
+        sql=[NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS modifier_list (id_mls INTEGER, sid TEXT, id_list INTEGER, name TEXT, is_mandatory TEXT, is_multioption TEXT,selected_modifier_sid TEXT)"]; // antes id_list INTEGER PRIMARY KEY
         if (sqlite3_exec(db, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
             [self close];
             [[NSNotificationCenter defaultCenter] postNotificationName:kLocalDBInitializationError object:self];
