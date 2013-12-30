@@ -28,6 +28,7 @@
 @property (nonatomic,strong) NSMutableArray *OrdersArray;
 @end
 
+
 UIBarButtonItem *anotherButton;
 
 @implementation HomeViewController
@@ -243,23 +244,52 @@ UIBarButtonItem *anotherButton;
         }
     }
     Order *currentOrder=[self.OrdersArray objectAtIndex:indexPath.row];
+    NSMutableArray *modifiersOrder=[[[CoreService getInstance]db] getOrdersModsWithOrderId:currentOrder.orderId];
+    NSArray *modifiersValuesArray = [modifiersOrder valueForKey:@"value"];
     cell.titleLabel.text=[NSString stringWithFormat:@"%i   %@",[currentOrder quantity],[currentOrder productName]];
-    NSString *note=[[currentOrder note] isEqualToString:@""]?@"":[currentOrder note];
+    NSString *note=[NSString stringWithFormat:@"%@ %@", [[modifiersValuesArray valueForKey:@"description"] componentsJoinedByString:@"\n "],[[currentOrder note] isEqualToString:@""]?@"":[NSString stringWithFormat:@"\n %@",[currentOrder note]] ];
+    if ([modifiersValuesArray count]==0) {
+        note=[[currentOrder note] isEqualToString:@""]?@"":[NSString stringWithFormat:@"%@",[currentOrder note]];
+    }
     cell.subtitleLabel.text=note;
-    if ([[currentOrder note] isEqualToString:@""]) {
+    cell.subtitleLabel.font=[UIFont systemFontOfSize:12];
+    if ([modifiersValuesArray count]==0 && [[currentOrder note] isEqualToString:@""]) {
         [cell.titleLabel frameCenterVerticallyInParent];
     }else{
         [cell.titleLabel frameMoveToY:2];
     }
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     cell.priceLabel.text=[NSString stringWithFormat:@"%.2f",[currentOrder.price floatValue]*[currentOrder quantity] ];
+    
+    // dynamic size
+    CGSize maximumLabelSize = CGSizeMake(200, FLT_MAX);
+    
+    CGSize expectedLabelSize = [note sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:maximumLabelSize lineBreakMode:cell.subtitleLabel.lineBreakMode];
+    
+    //adjust the label the the new height.
+    CGRect newFrame = cell.subtitleLabel.frame;
+    newFrame.size.height = expectedLabelSize.height+20;
+    cell.subtitleLabel.frame = newFrame;
+    //
     return cell;
 
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60;
+    Order *currentOrder=[self.OrdersArray objectAtIndex:indexPath.row];
+    NSMutableArray *modifiersOrder=[[[CoreService getInstance]db] getOrdersModsWithOrderId:currentOrder.orderId];
+    NSArray *modifiersValuesArray = [modifiersOrder valueForKey:@"value"];
+    NSString *note=[NSString stringWithFormat:@"%@ %@", [[modifiersValuesArray valueForKey:@"description"] componentsJoinedByString:@"\n "],[[currentOrder note] isEqualToString:@""]?@"":[NSString stringWithFormat:@"\n %@",[currentOrder note]] ];
+    if ([modifiersValuesArray count]==0 && [[currentOrder note] isEqualToString:@""]) {
+        return 60;
+    }
+    
+    // dynamic size
+    CGSize maximumLabelSize = CGSizeMake(200, FLT_MAX);
+    
+    CGSize expectedLabelSize = [note sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:maximumLabelSize lineBreakMode:NSLineBreakByWordWrapping];
+    return expectedLabelSize.height+50;
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath

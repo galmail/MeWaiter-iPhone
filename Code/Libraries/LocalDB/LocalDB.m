@@ -1982,6 +1982,7 @@
             orderMod.mlSetSid=[NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 1)];
             orderMod.mlistSid=[NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 2)];
             orderMod.modifierSid=[NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 3)];
+            orderMod.value=[NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 4)];
             [OrderModsArray addObject:orderMod];
 		}
 	} else {
